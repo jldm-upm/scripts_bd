@@ -11,34 +11,9 @@
 ##   NOTA: Ejecutar con bash (no con sh que en ubuntu es un alias para dash)
 ## -------------------------------------------------------------------
 ##   Historia: + 01 May 2020 - Primera Versión
+##             + 05 May 2020 - Utilizar script JavaScript externo
 ## *******************************************************************
 
 . ./conf_off.sh
 
-declare -a facets=(
-    'additives'
-    'allergens'
-    'brands'
-    'categories'
-    'countries'
-    'contributors'
-    'code'
-    'entry_dates'
-    'ingredients'
-    'label'
-    'languages'
-    'nutrition_grade'
-    'packaging'
-    'packaging_codes'
-    'purchase_places'
-    'photographer'
-    'informer'
-    'states'
-    'stores'
-    'traces')
-
-for facet in "${facets[@]}"
-do
-    echo "Creando índice para: ${facet}_tags"
-    mongo --eval "db.$BD_COLECCION_OFF.createIndex( \"${facet}_tags\" : 1)" $BD_NOMBRE_OFF
-done
+mongo "localhost:27017/${BD_NOMBRE_OFF}" crear_indices.js 
