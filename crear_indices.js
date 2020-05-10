@@ -14,48 +14,46 @@
 // *******************************************************************
 'use strict';
 
-const BD_OFF="jdlm";
-const COL_OFF="productos";
+const BD_OFF = "jdlm";
+const COL_OFF = "productos";
 
-const FACETS=[
-  'additives',
-  'allergens',
-  'brands',
-  'categories',
-  'countries',
-  'contributors',
-  'code',
-  'entry_dates',
-  'ingredients',
-  'label',
-  'languages',
-  'nutrition_grade',
-  'packaging',
-  'packaging_codes',
-  'purchase_places',
-  'photographer',
-  'informer',
-  'states',
-  'stores',
-  'traces'];
+const FACETS = [
+    'additives',
+    'allergens',
+    'brands',
+    'categories',
+    'countries',
+    'contributors',
+    'code',
+    'entry_dates',
+    'ingredients',
+    'label',
+    'languages',
+    'nutrition_grade',
+    'packaging',
+    'packaging_codes',
+    'purchase_places',
+    'photographer',
+    'informer',
+    'states',
+    'stores',
+    'traces'];
 
-for (let i=0; i< FACETS.length; i++) {
-  let val = FACETS[i];
-  let campo = val + "_tags";
-  let indice = { };
-  indice[campo] = 1;
-  printjson( indice );
-  db.productos.createIndex( indice );
-};
+function crear_indices() {
+    const CAMPO_COMPLETE = { complete: 1 };
+    for (let i = 0; i < FACETS.length; i++) {
+        let val = FACETS[i];
+        let campo = val + "_tags";
+        let indice = { ...CAMPO_COMPLETE };
+        indice[campo] = 1;
+        try {
+            printjson(indice);
+            db.productos.createIndex(indice);
+        } catch (error) {
+            console.log(`Error el crear el índice para ${campo}`);
+            printjson(error);
+        }
+    };
+}
 
-// FACETS.forEach((val) => {
-//   let campo = val + "_tags";
-//   let indice = { campo: 1 };
-//   db.productos.createIndex( indice );
-// });
-
-// CATEGORIES.forEach((val) => {
-//   let campo = val + "_tags";
-//   let indice = { campo: 1 };
-//   db.productos.createIndex( indice );
-// });
+crear_indices();
