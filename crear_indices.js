@@ -27,7 +27,7 @@ const FACETS = [
     'code',
     'entry_dates',
     'ingredients',
-    'label',
+    'labels',
     'languages',
     'nutrition_grade',
     'packaging',
@@ -39,21 +39,26 @@ const FACETS = [
     'stores',
     'traces'];
 
-function crear_indices() {
-    const CAMPO_COMPLETE = { complete: 1 };
+function crearIndices() {
+    const INDICE_BASICO = { complete: 1, last_modified_t: -1 };
     for (let i = 0; i < FACETS.length; i++) {
         let val = FACETS[i];
         let campo = val + "_tags";
-        let indice = { ...CAMPO_COMPLETE };
+        let indice = {};
+        Object.assign(indice, INDICE_BASICO);
         indice[campo] = 1;
+        let opciones = {};
+        opciones['name'] = 'jldm_' + campo + "_1_complete_1_last_modified_t_-1";
         try {
             printjson(indice);
-            db.productos.createIndex(indice);
+            db.productos.createIndex(indice, opciones);
         } catch (error) {
             console.log(`Error el crear el índice para ${campo}`);
             printjson(error);
         }
     };
+
+    return true;
 }
 
-crear_indices();
+crearIndices();
