@@ -157,6 +157,14 @@ actualizar() {
 	echo " 👌 Fichero de actualización OK: $actu"
 	mongoimport -d $BD_NOMBRE_OFF -c $BD_COLECCION_OFF $actu
 	echo "Res = $?"
+	if [ $? ]
+	then
+	    F_ACTU=`date +%s`
+	    echo "Actualizando timestamp a $F_ACTU"
+	    echo "$F_ACTU" > $F_ULTIMA_ACTUALIZACION
+	else
+	    return $?
+	fi
     done
     
     return 0
