@@ -155,7 +155,7 @@ actualizar() {
 	    return 2
 	fi
 	echo " 👌 Fichero de actualización OK: $actu"
-	mongoimport -d $BD_NOMBRE_OFF -c $BD_COLECCION_OFF $actu
+	mongoimport -d $BD_NOMBRE_OFF -c $BD_COLECCION_OFF --mode upsert $actu
 	echo "Res = $?"
 	if [ $? ]
 	then
