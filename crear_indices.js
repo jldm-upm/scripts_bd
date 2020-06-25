@@ -37,7 +37,8 @@ const FACETS = [
     'informer',
     'states',
     'stores',
-    'traces'];
+    'traces',
+    'sustainability.sustainability_level'];
 
 function crearIndices() {
     const INDICE_BASICO = { complete: 1, last_modified_t: -1 };
