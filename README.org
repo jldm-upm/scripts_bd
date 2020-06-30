@@ -1,0 +1,47 @@
+* SCRIPTS de SERVIDOR MONGODB
+
+Utilidades para manejar la base de datos MongoDB proporcionada por OpenFoodFacts
+
+* Instalación
+Tras descargar la base de datos MongoDDB:
+
+** Personalizar la configuración:
+[[file:conf_off.sh][Fichero con variables de Configuración usadas por otros scripts]]
+[[file:mongodb.conf][Fichero mongodb.conf]]
+
+** Lanzar servidor de base de datos
+#+BEGIN_SRC sh
+
+sh lanzar_bd.sh
+
+#+END_SRC
+
+** Crear Índices Adicionales
+#+BEGIN_SRC sh
+
+sh crear_indices.sh
+
+#+END_SRC
+
+* Otras operaciones
+
+** Parar servidor de base de datos
+#+BEGIN_SRC sh
+
+npm run build_android
+
+#+END_SRC
+
+** Actualizar base de datos con los ficheros delta publicados en OpenFoodFacts
+#+BEGIN_SRC sh
+
+sh actualizar_bd_online.sh
+
+#+END_SRC
+
+** Contar líneas de código
+#+BEGIN_SRC sh
+
+git ls-files -- './*' | xargs wc -l
+
+#+END_SRC
