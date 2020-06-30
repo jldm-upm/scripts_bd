@@ -100,9 +100,7 @@ infraestructura() {
     return 0
 }
 
-actualizar() {
-    echo "Actualizando:..."
-
+obtener_listado_actualizaciones() {
     echo " - Descargando $URL_DB_DELTAS en $FILE_DELTAS"
     curl $URL_DB_DELTAS -o $FILE_DELTAS
     ret=$?
@@ -125,7 +123,7 @@ actualizar() {
 	echo " 🚫 No se puede leer el fichero de actualizaciones delta $FILE_DELTAS"
 	return 2
     fi
-    echo " 👌 Fichero de índices OK"
+    echo " 👌 Fichero de índices OK ($FILE_DELTAS)"
 
     if [ ! -r "listar_actualizaciones.awk" ]
     then
@@ -134,8 +132,23 @@ actualizar() {
     fi 
 
     echo `pwd`
-    awk -v ultimo=`cat $F_ULTIMA_ACTUALIZACION` -f listar_actualizaciones.awk $FILE_DELTAS > $DIR_BD_TMP/actualizaciones.txt
+    awk -v ultimo=`cat $F_ULTIMA_ACTUALIZACION` -f listar_actualizaciones.awk $FILE_DELTAS | sort > $DIR_BD_TMP/actualizaciones.txt
+    
+    if [ ! -r "$DIR_BD_TMP/actualizaciones.txt" ]
+    then
+	echo " 🚫 1 No se puede leer el fichero con el listado de actualizaciones no realizadas: $DIR_BD_TMP/actualizaciones.txt"
+	return 2
+    else
+        echo " 👌 1 Fichero de listado de actualización OK: $DIR_BD_TMP/actualizaciones.txt"
+    fi
+    
+}
 
+actualizar() {
+    echo "Actualizando:..."
+
+    obtener_listado_actualizaciones
+    
     for l in `cat $DIR_BD_TMP/actualizaciones.txt`
     do
 	curl $URL_DB_FICHERO_DELTA/$l -o $DIR_BD_TMP/$l
