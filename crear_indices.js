@@ -62,4 +62,20 @@ function crearIndices() {
     return true;
 }
 
+function crearIndicesUsuarios() {
+    const BD_USUARIOS = 'jldm';
+    const COL_USUARIOS = 'usuarios';
+
+    const indice = {};
+    indice['username'] = 1;
+    try {
+    printjson(indice);
+        db.usuarios.createIndex(indice, {name: 'jldm_usuarios_username'});
+    } catch (error) {
+        console.log(`Error al crear índice 'usuarios.username`);
+        printjson(error);
+    }    
+}
+
 crearIndices();
+crearIndicesUsuarios();
